@@ -1,26 +1,21 @@
-import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+import Providers from "./providers";
 
-interface RootLayoutProps {
+export const metadata = {
+  title: "Spring Mintyn",
+  description: "Mintyn Frontend Test",
+};
+
+export default function RootLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+}) {
   return (
-    <>
-      <html lang="en" suppressHydrationWarning>
-        <head />
-        <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
-    </>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
   );
 }
