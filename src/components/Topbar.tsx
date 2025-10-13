@@ -23,9 +23,9 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
     pathname?.includes("/login") || pathname?.includes("/signup");
 
   return (
-    <header className="flex items-center justify-between px-6 py-3 bg-background text-foreground border-b border-border shadow-sm transition-colors">
+    <header className="flex items-center justify-between px-4 sm:px-6 py-3 bg-background text-foreground border-b border-border shadow-sm transition-colors">
       {/* --- Left Section --- */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 shrink-0">
         {!isAuthPage && (
           <button
             onClick={onMenuClick}
@@ -35,31 +35,38 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
           </button>
         )}
 
-        {/*  logo */}
+        {/* Logo */}
         <div className="flex items-center gap-2 select-none">
           <span className="text-xl">🔥</span>
-          <h1 className="font-semibold text-lg tracking-tight">Spring</h1>
+          <h1 className="font-semibold text-lg tracking-tight hidden sm:block">
+            Spring
+          </h1>
         </div>
       </div>
 
-      {/* --- Center  --- */}
-      {!isAuthPage && user && <SearchBar />}
+      {/* --- Center --- */}
+      {!isAuthPage && (
+        <div className="flex-1 max-w-md mx-2 hidden sm:flex">
+          <SearchBar />
+        </div>
+      )}
 
       {/* --- Right  --- */}
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-3 sm:gap-5 shrink-0">
         <ModeToggle />
 
         {!isAuthPage && (
           <>
-            <Bell className="w-5 h-5 text-muted-foreground cursor-pointer" />
-            <HelpCircle className="w-5 h-5 text-muted-foreground cursor-pointer" />
+            <Bell className="hidden sm:block w-5 h-5 text-muted-foreground cursor-pointer" />
+            <HelpCircle className="hidden sm:block w-5 h-5 text-muted-foreground cursor-pointer" />
 
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-muted border border-border">
+            {/* User Info */}
+            <div className="flex items-center gap-2 max-w-[120px] sm:max-w-none overflow-hidden text-ellipsis">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-muted border border-border flex-shrink-0">
                 <UserIcon className="w-4 h-4 text-foreground" />
               </div>
 
-              <span className="text-sm font-medium">
+              <span className="hidden sm:inline text-sm font-medium truncate">
                 {isLoading
                   ? "Loading..."
                   : isError
