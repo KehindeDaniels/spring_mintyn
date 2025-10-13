@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { ArrowUpDown, ChevronUp, ChevronDown } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import { Transaction } from "../hooks/useDashboardTransactions";
 
@@ -8,10 +10,41 @@ interface TransactionTableProps {
   isLoading?: boolean;
 }
 
+type SortKey = keyof Pick<
+  Transaction,
+  "player_name" | "date" | "amount" | "status"
+>;
+
 export default function TransactionTable({
   data,
   isLoading,
 }: TransactionTableProps) {
+  const [sortKey, setSortKey] = useState<SortKey>("player_name");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  // Sort handler
+  const handleSort = (key: SortKey) => {
+    if (key === sortKey) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortOrder("asc");
+    }
+  };
+
+  // Sort logic
+  const sortedData = [...data].sort((a, b) => {
+    const aValue = a[sortKey];
+    const bValue = b[sortKey];
+
+    if (typeof aValue === "number" && typeof bValue === "number") {
+      return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
+    }
+    return sortOrder === "asc"
+      ? String(aValue).localeCompare(String(bValue))
+      : String(bValue).localeCompare(String(aValue));
+  });
+
   if (isLoading) {
     return (
       <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mt-6 animate-pulse">
@@ -21,9 +54,12 @@ export default function TransactionTable({
           </h2>
           <div className="h-4 w-12 bg-gray-200 dark:bg-gray-700 rounded" />
         </div>
-        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
-        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
-        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={i}
+            className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-2"
+          />
+        ))}
       </div>
     );
   }
@@ -38,16 +74,41 @@ export default function TransactionTable({
       <table className="w-full text-sm">
         <thead className="text-gray-500 border-b dark:border-gray-700">
           <tr>
-            <th className="text-left py-2">PAYER NAME</th>
-            <th className="text-left py-2">DATE</th>
-            <th className="text-left py-2">AMOUNT</th>
-            <th className="text-left py-2">STATUS</th>
+            {[
+              { label: "PAYER NAME", key: "player_name" },
+              { label: "DATE", key: "date" },
+              { label: "AMOUNT", key: "amount" },
+              { label: "STATUS", key: "status" },
+            ].map((col) => (
+              <th
+                key={col.key}
+                onClick={() => handleSort(col.key as SortKey)}
+                className="text-left py-2 cursor-pointer select-none group"
+              >
+                <div className="flex items-center gap-1">
+                  <span>{col.label}</span>
+                  {sortKey === col.key ? (
+                    sortOrder === "asc" ? (
+                      <ChevronUp className="w-3.5 h-3.5 text-gray-400" />
+                    ) : (
+                      <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+                    )
+                  ) : (
+                    <ArrowUpDown className="w-3.5 h-3.5 text-gray-300 opacity-0 group-hover:opacity-100 transition" />
+                  )}
+                </div>
+              </th>
+            ))}
           </tr>
         </thead>
+
         <tbody>
-          {data.length > 0 ? (
-            data.map((tx, idx) => (
-              <tr key={idx} className="border-b dark:border-gray-700">
+          {sortedData.length > 0 ? (
+            sortedData.map((tx, idx) => (
+              <tr
+                key={idx}
+                className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition"
+              >
                 <td className="py-2">{tx.player_name}</td>
                 <td className="py-2">{tx.date}</td>
                 <td className="py-2">
