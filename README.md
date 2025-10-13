@@ -19,7 +19,7 @@ The project is intentionally structured to mirror real-world modularity and scal
 | **`/hooks`**                    | Business logic separation. `useLogin` and `useSignup` abstract React Query mutations out of UI for better reusability.             |
 | **`/store`**                    | Global state management using **Zustand**, for lightweight token and session management.                                           |
 | **`/lib/api.ts`**               | Centralized Axios instance with interceptors and environment-based configuration.                                                  |
-| **`/app/dashboard/components`** | Encapsulated dashboard UI modules (cards, filters, sidebar, tables) — making the dashboard view fully reusable as a component.     |
+| **`/app/dashboard/components`** | The dashboard's UI modules (cards, filters, sidebar, tables) — making the dashboard view fully reusable as a component.     |
 | **`/providers.tsx`**            | Wraps React Query and Theme providers globally for the entire app.                                                                 |
 | **`/globals.css`**              | Tailwind theme tokens with CSS variables for dark/light color schemes using OKLCH color spaces.                                    |
 
