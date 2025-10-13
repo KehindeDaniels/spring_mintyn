@@ -9,7 +9,7 @@ This project demonstrates clean architecture, reusable components, and robust AP
 
 ---
 
-## 🧠 Architecture & Logic Behind Structure
+## Architecture & Logic Behind Structure
 
 The project is intentionally structured to mirror real-world modularity and scalability:
 
