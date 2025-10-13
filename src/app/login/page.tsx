@@ -6,10 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Toaster, toast } from "sonner";
 import { useLogin } from "@/hooks/useLogin";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const loginMutation = useLogin();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,7 +39,7 @@ export default function LoginPage() {
 
         <CardContent className="pt-4">
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email Field */}
+            {/* Email  */}
             <div>
               <label className="block text-sm font-medium mb-1 text-foreground">
                 Email Address
@@ -51,18 +53,32 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Password Field */}
+            {/* Password  */}
             <div>
               <label className="block text-sm font-medium mb-1 text-foreground">
                 Password
               </label>
-              <Input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="h-10 bg-background border border-border text-foreground text-sm rounded-md focus-visible:ring-1 focus-visible:ring-ring transition-all"
-              />
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="h-10 bg-background border border-border text-foreground text-sm rounded-md pr-10 focus-visible:ring-1 focus-visible:ring-ring transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-2 flex items-center justify-center text-muted-foreground hover:text-foreground"
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Submit Button */}
