@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/useAuthStore";
 import DashboardView from "./dashboard/DashboardView";
-import { ModeToggle } from "@/components/ui/ModeToggle";
 
 export default function Home() {
   const router = useRouter();

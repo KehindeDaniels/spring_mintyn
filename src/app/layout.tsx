@@ -1,6 +1,5 @@
 import "./globals.css";
 import Providers from "./providers";
-import Topbar from "@/components/Topbar";
 
 export const metadata = {
   title: "Spring Mintyn",
@@ -15,10 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Providers>
-          <Topbar />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

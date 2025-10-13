@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Topbar from "@/components/Topbar";
 import { useSignup } from "@/hooks/useSignup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,85 +25,91 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background text-foreground px-4 transition-colors duration-200">
-      <Toaster position="top-right" richColors closeButton />
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-200">
+      {/* ✅ Topbar only for signup */}
+      <Topbar />
 
-      <Card className="w-full max-w-md border border-border bg-card text-card-foreground rounded-xl shadow-sm transition-colors">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-center text-2xl font-semibold tracking-tight">
-            Create an Account
-          </CardTitle>
-          <p className="text-center text-muted-foreground text-sm mt-1">
-            Fill in your details to sign up.
-          </p>
-        </CardHeader>
+      {/* Main Content */}
+      <div className="flex items-center justify-center px-4 py-10">
+        <Toaster position="top-right" richColors closeButton />
 
-        <CardContent className="pt-4">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email  */}
-            <div>
-              <label className="block text-sm font-medium mb-1 text-foreground">
-                Email Address
-              </label>
-              <Input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-10 bg-background border border-border text-foreground text-sm rounded-md focus-visible:ring-1 focus-visible:ring-ring transition-all"
-              />
-            </div>
+        <Card className="w-full max-w-md border border-border bg-card text-card-foreground rounded-xl shadow-sm transition-colors">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-center text-2xl font-semibold tracking-tight">
+              Create an Account
+            </CardTitle>
+            <p className="text-center text-muted-foreground text-sm mt-1">
+              Fill in your details to sign up.
+            </p>
+          </CardHeader>
 
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium mb-1 text-foreground">
-                Password
-              </label>
-              <div className="relative">
+          <CardContent className="pt-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Email Field */}
+              <div>
+                <label className="block text-sm font-medium mb-1 text-foreground">
+                  Email Address
+                </label>
                 <Input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="h-10 bg-background border border-border text-foreground text-sm rounded-md pr-10 focus-visible:ring-1 focus-visible:ring-ring transition-all"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-10 bg-background border border-border text-foreground text-sm rounded-md focus-visible:ring-1 focus-visible:ring-ring transition-all"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-2 flex items-center justify-center text-muted-foreground hover:text-foreground"
-                  aria-label="Toggle password visibility"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
               </div>
-            </div>
 
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full h-10 text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 rounded-md transition-all"
-              disabled={signupMutation.isPending}
-            >
-              {signupMutation.isPending ? "Signing up..." : "Sign up"}
-            </Button>
-          </form>
+              {/* Password Field */}
+              <div>
+                <label className="block text-sm font-medium mb-1 text-foreground">
+                  Password
+                </label>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="h-10 bg-background border border-border text-foreground text-sm rounded-md pr-10 focus-visible:ring-1 focus-visible:ring-ring transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-2 flex items-center justify-center text-muted-foreground hover:text-foreground"
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+              </div>
 
-          {/* Footer */}
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <button
-              onClick={() => location.assign("/login")}
-              className="text-primary hover:underline font-medium"
-            >
-              Sign in
-            </button>
-          </p>
-        </CardContent>
-      </Card>
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                className="w-full h-10 text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 rounded-md transition-all"
+                disabled={signupMutation.isPending}
+              >
+                {signupMutation.isPending ? "Signing up..." : "Sign up"}
+              </Button>
+            </form>
+
+            {/* Footer */}
+            <p className="mt-6 text-center text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <button
+                onClick={() => location.assign("/login")}
+                className="text-primary hover:underline font-medium"
+              >
+                Sign in
+              </button>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
