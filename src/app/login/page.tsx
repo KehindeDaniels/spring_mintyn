@@ -19,7 +19,7 @@ export default function LoginPage() {
 
   const loginMutation = useMutation({
     mutationFn: async () => {
-      const res = await api.post("/api/v1/auth/login", { email, password });
+      const res = await api.post("/v1/auth/login", { email, password });
       console.log("See Status o:", res.status);
       console.log("make invalid cred dey return 200...chai:", res.data);
       return res.data;
