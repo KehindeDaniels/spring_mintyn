@@ -5,66 +5,7 @@ This project demonstrates clean architecture, reusable components, and robust AP
 
 ---
 
-## 📁 Project Structure
 
-```
-spring_mintyn
-├── .github
-│   └── copilot-instructions.md
-├── public
-│   ├── home.jpg
-│   ├── login.jpg
-│   ├── next.svg
-│   ├── vercel.svg
-│   └── *.svg assets
-├── src
-│   ├── app
-│   │   ├── dashboard
-│   │   │   ├── components
-│   │   │   │   ├── DashboardFilters.tsx
-│   │   │   │   ├── SearchBar.tsx
-│   │   │   │   ├── Sidebar.tsx
-│   │   │   │   ├── StatCard.tsx
-│   │   │   │   ├── StatusBadge.tsx
-│   │   │   │   └── TransactionTable.tsx
-│   │   │   ├── hooks
-│   │   │   │   ├── useDashboardStats.ts
-│   │   │   │   ├── useDashboardTransactions.ts
-│   │   │   │   └── useUser.ts
-│   │   │   ├── layout.tsx
-│   │   │   └── page.tsx
-│   │   ├── login
-│   │   │   └── page.tsx
-│   │   ├── signup
-│   │   │   └── page.tsx
-│   │   ├── globals.css
-│   │   ├── layout.tsx
-│   │   ├── page.tsx
-│   │   └── providers.tsx
-│   ├── components
-│   │   ├── ui
-│   │   │   ├── button.tsx
-│   │   │   ├── card.tsx
-│   │   │   ├── dropdown-menu.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── ModeToggle.tsx
-│   │   │   └── sonner.tsx
-│   │   ├── theme-provider.tsx
-│   │   └── Topbar.tsx
-│   ├── hooks
-│   │   ├── useLogin.ts
-│   │   └── useSignup.ts
-│   ├── lib
-│   │   ├── api.ts
-│   │   └── utils.ts
-│   ├── store
-│   │   └── useAuthStore.ts
-│   └── middleware.ts
-├── package.json
-├── next.config.ts
-├── tsconfig.json
-└── postcss.config.mjs
-```
 
 ---
 
@@ -108,26 +49,13 @@ This modular structure ensures that features like authentication, dashboard stat
 
 ## 🎨 Theming
 
-All colors, borders, and backgrounds are abstracted into **CSS custom properties** defined in `globals.css` for both light and dark modes using **OKLCH color space**.
-This allows precise contrast control and consistent theming via `bg-background`, `text-foreground`, etc.
-
-```css
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  /* ... */
-}
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-}
-```
+Theming from shadcn
 
 The **ModeToggle** component interacts with these variables to seamlessly switch between dark and light modes.
 
 ---
 
-## 🧭 Authentication Flow
+##  Authentication Flow
 
 - User credentials are handled through **React Query mutations** (`useLogin`, `useSignup`).
 - Upon success, an access token is stored in Zustand’s `useAuthStore`.
@@ -136,7 +64,7 @@ The **ModeToggle** component interacts with these variables to seamlessly switch
 
 ---
 
-## 📊 Dashboard Overview
+## Dashboard Overview
 
 The Dashboard is fully dynamic and modular:
 
@@ -149,9 +77,9 @@ The dashboard can also be rendered as a standalone `DashboardView` component and
 
 ---
 
-## 🚧 Challenges & Fixes
+## Challenges & Fixes
 
-### 🧩 1. Handling CORS Errors
+### 1. Handling CORS Errors
 
 Initially, requests to `/api/v1/auth/*` failed with **CORS issues** during local development.
 We resolved this by:
@@ -159,7 +87,7 @@ We resolved this by:
 - Adding a local `next.config.ts` rewrite proxy for `/api` routes.
 - Configuring `axios` to use the correct backend base URL with `withCredentials: false`.
 
-### ⚙️ 2. HTTP Status Inconsistencies
+### 2. HTTP Status Inconsistencies
 
 The backend returned **HTTP 200** for failed login attempts instead of `401/400`.
 To handle this gracefully, we relied on the `error` field in the API response instead of status codes — allowing clear toast feedback:
@@ -229,7 +157,7 @@ npm run lint
 
 ---
 
-## 🧑‍🎨 Author
+##  Author
 
 **👨‍💻 Kehinde Daniels**
 Frontend Engineer — React, Next.js, TypeScript, and Fintech UI specialist.
