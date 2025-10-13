@@ -3,12 +3,7 @@
 import { DollarSign } from "lucide-react";
 import StatCard from "./components/StatCard";
 import TransactionTable, { Transaction } from "./components/TransactionTable";
-
-const mockStats = {
-  sales_value: 230000000,
-  commission_earned: 200000,
-  currency: "₦",
-};
+import { useDashboardStats } from "./hooks/useDashboardStats";
 
 const mockTransactions: Transaction[] = [
   {
@@ -56,24 +51,30 @@ const mockTransactions: Transaction[] = [
 ];
 
 export default function DashboardPage() {
-  return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold mb-4">Overview</h1>
+  const { data: stats, isLoading } = useDashboardStats();
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  // helpers to format with currency symbol and .00 like the design
+  const fmt = (amount?: number, curr?: string) =>
+    amount != null && curr ? `${curr}${amount.toLocaleString()}.00` : "";
+
+  return (
+    <div className="space-y-8">
+      <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+        Overview
+      </h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard
           title="Sales value"
-          value={`${
-            mockStats.currency
-          }${mockStats.sales_value.toLocaleString()}.00`}
+          value={fmt(stats?.sales_value, stats?.currency)}
           icon={DollarSign}
+          isLoading={isLoading}
         />
         <StatCard
           title="Commissions earned"
-          value={`${
-            mockStats.currency
-          }${mockStats.commission_earned.toLocaleString()}.00`}
+          value={fmt(stats?.commission_earned, stats?.currency)}
           icon={DollarSign}
+          isLoading={isLoading}
         />
       </div>
 

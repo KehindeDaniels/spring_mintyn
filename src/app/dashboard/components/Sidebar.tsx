@@ -2,7 +2,9 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Home, BarChart3, Users, Settings, X } from "lucide-react";
+import { Home, BarChart3, Users, Settings, X, LogOut } from "lucide-react";
+import Cookies from "js-cookie";
+import { useAuthStore } from "@/store/useAuthStore";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -25,6 +27,13 @@ const navItems: NavItem[] = [
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const { setToken } = useAuthStore();
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    setToken("");
+    router.push("/login");
+  };
 
   return (
     <>
@@ -32,7 +41,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 bg-black bg-opacity-30 z-40 md:hidden"
+          className="fixed inset-0 bg-black/75 bg-opacity-30 z-40 md:hidden"
         />
       )}
 
@@ -55,7 +64,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-col gap-2 px-4">
+        <nav className="flex flex-col gap-2 px-4 flex-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -80,6 +89,17 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             );
           })}
         </nav>
+
+        {/* Logout at bottom */}
+        <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-4">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 w-full text-sm text-gray-600 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-500 transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign out
+          </button>
+        </div>
       </aside>
     </>
   );
