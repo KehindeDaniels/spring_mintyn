@@ -3,8 +3,6 @@
 A modern, modular, and scalable **Next.js (App Router)** dashboard application built for the Mintyn Frontend Test.
 This project demonstrates clean architecture, reusable components, and robust API integrations with **React Query**, **Zustand**, and **TypeScript** — all wrapped in a responsive and theme-aware UI powered by **Tailwind CSS v4**.
 
----
-
 
 
 ---
