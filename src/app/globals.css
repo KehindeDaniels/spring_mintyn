@@ -53,38 +53,38 @@
   /* Accent & Destructive */
   --accent: oklch(0.94 0.03 250);
   --accent-foreground: var(--foreground);
-  --destructive: oklch(0.6 0.2 25); /* subtle red */
+  --destructive: oklch(0.6 0.2 25);
 }
 
-/* dark Mode */
+/* 🌙 Dark Mode — soft blue aesthetic */
 .dark {
-  /* Surfaces */
-  --background: oklch(0.16 0 0);
-  --card: oklch(0.22 0 0);
-  --popover: oklch(0.22 0 0);
+  /* Backgrounds */
+  --background: oklch(0.19 0.04 250); /* deep blue-gray base */
+  --card: oklch(0.25 0.05 255); /* slightly lighter for contrast */
+  --popover: oklch(0.25 0.05 255);
 
-  /* Text */
+  /* Text & Foreground */
   --foreground: oklch(0.98 0 0);
   --card-foreground: var(--foreground);
   --popover-foreground: var(--foreground);
 
-  /* Brand Blue (still readable in dark) */
-  --primary: oklch(0.72 0.15 250);
+  /* Primary / Brand Accent */
+  --primary: oklch(0.72 0.15 250); /* bright blue for accents */
   --primary-foreground: oklch(0.16 0 0);
 
-  /* Secondary & Muted */
-  --secondary: oklch(0.25 0 0);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.25 0 0);
+  /* Muted & Secondary */
+  --secondary: oklch(0.28 0.03 250);
+  --secondary-foreground: oklch(0.94 0 0);
+  --muted: oklch(0.28 0.03 250);
   --muted-foreground: oklch(0.75 0 0);
 
-  /* Border / Input / Ring */
-  --border: oklch(0.32 0 0);
-  --input: oklch(0.3 0 0);
+  /* Border & Inputs */
+  --border: oklch(0.33 0.03 250);
+  --input: oklch(0.3 0.03 250);
   --ring: var(--primary);
 
   /* Accent & Destructive */
-  --accent: oklch(0.35 0.03 250);
+  --accent: oklch(0.35 0.05 250);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.65 0.2 25);
 }
@@ -96,6 +96,6 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased transition-colors duration-300;
   }
 }
