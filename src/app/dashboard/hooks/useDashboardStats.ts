@@ -17,7 +17,6 @@ interface DashboardStatsResponse {
 
 const fetchDashboardStats = async (): Promise<DashboardStats> => {
   const res = await api.get<DashboardStatsResponse>("/v1/dashboard/stats");
-  console.log("📊 [useDashboardStats] API response:", res.data);
 
   if (res.data.error) throw new Error(res.data.error);
   return res.data.data;
@@ -27,6 +26,6 @@ export const useDashboardStats = () =>
   useQuery<DashboardStats>({
     queryKey: ["dashboard", "stats"],
     queryFn: fetchDashboardStats,
-    staleTime: 5 * 60 * 1000, // cache for 5 minutes
+    staleTime: 5 * 60 * 1000,
     retry: false,
   });
