@@ -10,7 +10,7 @@ interface TopbarProps {
   onMenuClick?: () => void;
 }
 
-export default function Topbar({ onMenuClick }: TopbarProps) {
+export default function TopbarContent({ onMenuClick }: TopbarProps) {
   const { data: user, isLoading, isError } = useUser();
   const pathname = usePathname();
 
@@ -51,7 +51,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         </div>
       )}
 
-      {/* --- Right  --- */}
+      {/* --- Right --- */}
       <div className="flex items-center gap-3 sm:gap-5 shrink-0">
         <ModeToggle />
 
