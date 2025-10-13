@@ -22,12 +22,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-background text-foreground transition-colors">
+    <div className="flex min-h-screen items-center justify-center bg-background text-foreground px-4 transition-colors duration-200">
       <Toaster position="top-right" richColors closeButton />
 
-      <Card className="w-full max-w-md p-6 bg-card text-card-foreground shadow-md border border-border rounded-lg">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-semibold">
+      <Card className="w-full max-w-md border border-border bg-card text-card-foreground rounded-xl shadow-sm transition-colors">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-center text-2xl font-semibold tracking-tight">
             Welcome Back
           </CardTitle>
           <p className="text-center text-muted-foreground text-sm mt-1">
@@ -35,8 +35,9 @@ export default function LoginPage() {
           </p>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="pt-4">
           <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email Field */}
             <div>
               <label className="block text-sm font-medium mb-1 text-foreground">
                 Email Address
@@ -46,10 +47,11 @@ export default function LoginPage() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-background border-border text-foreground"
+                className="h-10 bg-background border border-border text-foreground text-sm rounded-md focus-visible:ring-1 focus-visible:ring-ring transition-all"
               />
             </div>
 
+            {/* Password Field */}
             <div>
               <label className="block text-sm font-medium mb-1 text-foreground">
                 Password
@@ -59,24 +61,26 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-background border-border text-foreground"
+                className="h-10 bg-background border border-border text-foreground text-sm rounded-md focus-visible:ring-1 focus-visible:ring-ring transition-all"
               />
             </div>
 
+            {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full bg-primary text-primary-foreground hover:opacity-90 transition-all"
+              className="w-full h-10 text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 rounded-md transition-all"
               disabled={loginMutation.isPending}
             >
               {loginMutation.isPending ? "Signing in..." : "Login"}
             </Button>
           </form>
 
+          {/* Footer */}
           <p className="mt-6 text-center text-sm text-muted-foreground">
             Don’t have an account?{" "}
             <button
               onClick={() => location.assign("/signup")}
-              className="text-blue-600 hover:underline font-medium"
+              className="text-primary hover:underline font-medium"
             >
               Sign up
             </button>
