@@ -1,39 +1,54 @@
 "use client";
 
-import { DollarSign } from "lucide-react";
-import StatCard from "./components/StatCard";
+import { useSearchParams } from "next/navigation";
+import { useDashboardTransactions } from "./hooks/useDashboardTransactions";
 import TransactionTable from "./components/TransactionTable";
+import StatCard from "./components/StatCard";
 import { useDashboardStats } from "./hooks/useDashboardStats";
+import { DollarSign } from "lucide-react";
+import DashboardFilters from "./components/DashboardFilters";
 
 export default function DashboardPage() {
-  const { data: stats, isLoading } = useDashboardStats();
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
 
-  // helpers to format with currency symbol and .00 like the design
-  const fmt = (amount?: number, curr?: string) =>
-    amount != null && curr ? `${curr}${amount.toLocaleString()}.00` : "";
+  const { data: stats, isLoading: statsLoading } = useDashboardStats();
+  const { data: transactions, isLoading: txLoading } =
+    useDashboardTransactions();
+
+  const filteredTransactions = transactions?.filter((t) =>
+    t.player_name.toLowerCase().includes(searchTerm)
+  );
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-        Overview
-      </h1>
+    <div className="space-y-6">
+      <DashboardFilters />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard
           title="Sales value"
-          value={fmt(stats?.sales_value, stats?.currency)}
+          value={
+            statsLoading
+              ? "Loading..."
+              : `₦${stats?.sales_value.toLocaleString()}.00`
+          }
           icon={DollarSign}
-          isLoading={isLoading}
         />
         <StatCard
           title="Commissions earned"
-          value={fmt(stats?.commission_earned, stats?.currency)}
+          value={
+            statsLoading
+              ? "Loading..."
+              : `₦${stats?.commission_earned.toLocaleString()}.00`
+          }
           icon={DollarSign}
-          isLoading={isLoading}
         />
       </div>
 
-      <TransactionTable />
+      <TransactionTable
+        data={filteredTransactions || []}
+        isLoading={txLoading}
+      />
     </div>
   );
 }
