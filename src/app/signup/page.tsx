@@ -1,51 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
-import api from "@/lib/api";
+import { useSignup } from "@/hooks/useSignup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Toaster, toast } from "sonner";
 
 export default function SignupPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const signupMutation = useMutation({
-    mutationFn: async () => {
-      const res = await api.post("/v1/auth/signup", { email, password });
-      return res.data;
-    },
-    onSuccess: (data) => {
-      console.log("Signup response:", data);
-
-      const errorMsg = data?.error;
-      const userId = data?.data?.id;
-      const userEmail = data?.data?.email;
-
-      if (errorMsg) {
-        toast.error(errorMsg);
-        return;
-      }
-
-      if (userId && userEmail) {
-        toast.success("Signup successful — you can now log in.");
-        router.push("/login");
-      } else {
-        toast.error("Signup failed — Invalid server response.");
-      }
-    },
-    onError: (err: import("axios").AxiosError<{ error?: string }>) => {
-      const message =
-        err?.response?.data?.error ||
-        err?.message ||
-        "Signup failed. Please try again.";
-      toast.error(message);
-    },
-  });
+  const signupMutation = useSignup();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,58 +18,68 @@ export default function SignupPage() {
       toast.warning("Please fill in both fields.");
       return;
     }
-    signupMutation.mutate();
+    signupMutation.mutate({ email, password });
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div className="flex h-screen items-center justify-center bg-background text-foreground transition-colors">
       <Toaster position="top-right" richColors closeButton />
-      <Card className="w-full max-w-md p-4 shadow-md">
+
+      <Card className="w-full max-w-md p-6 bg-card text-card-foreground shadow-md border border-border rounded-lg">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-semibold">
             Create an Account
           </CardTitle>
+          <p className="text-center text-muted-foreground text-sm mt-1">
+            Fill in your details to sign up.
+          </p>
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
+              <label className="block text-sm font-medium mb-1 text-foreground">
+                Email Address
+              </label>
               <Input
                 type="email"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="bg-background border-border text-foreground"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Password</label>
+              <label className="block text-sm font-medium mb-1 text-foreground">
+                Password
+              </label>
               <Input
                 type="password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="bg-background border-border text-foreground"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full bg-primary text-primary-foreground hover:opacity-90 transition-all"
               disabled={signupMutation.isPending}
             >
               {signupMutation.isPending ? "Signing up..." : "Sign up"}
             </Button>
           </form>
 
-          <p className="mt-4 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <span
-              onClick={() => router.push("/login")}
-              className="text-blue-600 hover:underline cursor-pointer"
+            <button
+              onClick={() => location.assign("/login")}
+              className="text-blue-600 hover:underline font-medium"
             >
               Sign in
-            </span>
+            </button>
           </p>
         </CardContent>
       </Card>

@@ -19,57 +19,57 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
     return email.split("@")[0];
   };
 
-  // Hide extra icons on login/signup
   const isAuthPage =
     pathname?.includes("/login") || pathname?.includes("/signup");
 
   return (
-    <header className="flex items-center justify-between px-6 py-3 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-100 dark:border-gray-800">
+    <header className="flex items-center justify-between px-6 py-3 bg-background text-foreground border-b border-border shadow-sm transition-colors">
       {/* --- Left Section --- */}
       <div className="flex items-center gap-3">
         {!isAuthPage && (
           <button
             onClick={onMenuClick}
-            className="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="md:hidden p-2 rounded hover:bg-muted"
           >
-            <Menu className="w-5 h-5 text-gray-700 dark:text-gray-200" />
+            <Menu className="w-5 h-5" />
           </button>
         )}
 
-        {/* Fire emoji logo */}
-        <div className="flex items-center gap-2">
+        {/*  logo */}
+        <div className="flex items-center gap-2 select-none">
           <span className="text-xl">🔥</span>
-          <h1 className="font-semibold text-gray-800 dark:text-gray-200 text-lg tracking-tight">
-            Spring
-          </h1>
+          <h1 className="font-semibold text-lg tracking-tight">Spring</h1>
         </div>
       </div>
 
-      {/* --- Center: Search (only when logged in) --- */}
+      {/* --- Center  --- */}
       {!isAuthPage && user && <SearchBar />}
 
-      {/* --- Right Section (only when logged in) --- */}
-      {!isAuthPage && (
-        <div className="flex items-center gap-5">
-          <ModeToggle />
-          <Bell className="text-gray-500 dark:text-gray-300 w-5 h-5 cursor-pointer" />
-          <HelpCircle className="text-gray-500 dark:text-gray-300 w-5 h-5 cursor-pointer" />
+      {/* --- Right  --- */}
+      <div className="flex items-center gap-5">
+        <ModeToggle />
 
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
-              <UserIcon className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+        {!isAuthPage && (
+          <>
+            <Bell className="w-5 h-5 text-muted-foreground cursor-pointer" />
+            <HelpCircle className="w-5 h-5 text-muted-foreground cursor-pointer" />
+
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-muted border border-border">
+                <UserIcon className="w-4 h-4 text-foreground" />
+              </div>
+
+              <span className="text-sm font-medium">
+                {isLoading
+                  ? "Loading..."
+                  : isError
+                  ? "Unknown"
+                  : getDisplayName(user?.email)}
+              </span>
             </div>
-
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-              {isLoading
-                ? "Loading..."
-                : isError
-                ? "Unknown"
-                : getDisplayName(user?.email)}
-            </span>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </header>
   );
 }
